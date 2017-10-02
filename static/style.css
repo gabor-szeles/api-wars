@@ -1,0 +1,30 @@
+body{
+    background: #d3d3d3;
+}
+
+tr:nth-child(odd) {
+   background-color: white;
+}
+
+table, th, td {
+
+    border: 1px solid black;
+}
+
+td {
+    width: 140px;
+    height: 100px;
+    text-align: center;
+}
+
+p {
+    font-weight: bold
+}
+
+p:after { content: ": " }
+
+label {
+font-style: italic;
+width: 100%;
+float: right;
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Encyclopaedia Planetica</title>
+</head>
+<body>
+    <h1>Known planets of the galaxy</h1>
+    <br /><button id="prevButton">Previous</button>
+          <button id="nextButton">Next</button>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Diameter</th>
+            <th>Climate</th>
+            <th>Terrain</th>
+            <th>Surface Water Percentage</th>
+            <th>Population</th>
+            <th>Residents</th>
+        </tr>
+    {% for planet in planets %}
+        <tr>
+            <td>{{ planet["name"] }}</td>
+            <td>{{ planet["diameter"] }}</td>
+            <td>{{ planet["climate"] }}</td>
+            <td>{{ planet["terrain"] }}</td>
+            <td>{{ planet["surface_water"] }}</td>
+            <td>{{ planet["population"] }}</td>
+            {% if planet["residents"] %}
+            <td><button id="residents">{{planet["residents"]|length}} residents</button></td>
+            {% else %}
+            <td>No known residents</td>
+            {% endif %}
+            <td><button id="vote">Vote</button></td>
+        </tr>
+    {% endfor %}
+    </table>
+</body>
+</html>
