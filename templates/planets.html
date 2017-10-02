@@ -4,12 +4,14 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="/static/style.css">
     <title>Encyclopaedia Planetica</title>
+    <script type="text/javascript" src="/static/jquery-3.2.1.min.js" defer></script>
+    <script type="text/javascript" src="/static/planets.js" defer></script>
 </head>
 <body>
     <h1>Known planets of the galaxy</h1>
-    <br /><button id="prevButton">Previous</button>
-          <button id="nextButton">Next</button>
-    <table>
+    <br /><button id="prevButton" data-prev="{{prev_page}}">Previous</button>
+          <button id="nextButton" data-next="{{next_page}}">Next</button>
+    <table id="dataTable">
         <tr>
             <th>Name</th>
             <th>Diameter</th>
@@ -22,10 +24,10 @@
     {% for planet in planets %}
         <tr>
             <td>{{ planet["name"] }}</td>
-            <td>{{ planet["diameter"] }}</td>
+            <td>{{ "{:,}".format(planet["diameter"]|int) }} km</td>
             <td>{{ planet["climate"] }}</td>
             <td>{{ planet["terrain"] }}</td>
-            <td>{{ planet["surface_water"] }}</td>
+            <td>{{ planet["surface_water"] }}%</td>
             <td>{{ planet["population"] }}</td>
             {% if planet["residents"] %}
             <td><button id="residents">{{planet["residents"]|length}} residents</button></td>
