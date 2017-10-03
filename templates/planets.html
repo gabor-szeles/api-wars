@@ -8,85 +8,107 @@
     <script type="text/javascript" src="/static/planets.js" defer></script>
 </head>
 <body>
-    <h1>Known planets of the galaxy</h1>
-    <div>
-        {%if session%}
-        <abbr title="Logout"><a id="login_button" class="btn btn-danger" href="{{ url_for('logout') }}">Logout</a></abbr>
-        {% else %}
-        <abbr title="Login"><a id="login_button" class="btn btn-primary" href="{{ url_for('login') }}">Login</a></abbr>
-        <abbr title="Register"><a id="register_button" class="btn btn-primary" href="{{ url_for('registration') }}" id="register">Register</a></abbr>
-        {%endif%}
-    </div>
-    <div class="dataTable">
-        {%if prev_page is none%}
-        <button id="prevButton" class="btn btn-primary disabled" data-prev="{{prev_page}}">Previous</button>
-        {%else%}
-        <button id="prevButton" class="btn btn-primary" data-prev="{{prev_page}}">Previous</button>
-        {%endif%}
-        {%if next_page is none%}
-        <button id="nextButton" class="btn btn-primary disabled" data-next="{{next_page}}">Next</button>
-        {%else%}
-        <button id="nextButton" class="btn btn-primary" data-next="{{next_page}}">Next</button>
-        {%endif%}
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Diameter</th>
-                <th>Climate</th>
-                <th>Terrain</th>
-                <th>Surface Water Percentage</th>
-                <th>Population</th>
-                <th>Residents</th>
-            </tr>
-        {% for planet in planets %}
-            <tr>
-                <td>{{ planet["name"] }}</td>
-                <td>{{ "{:,}".format(planet["diameter"]|int) }} km</td>
-                <td>{{ planet["climate"] }}</td>
-                <td>{{ planet["terrain"] }}</td>
-                <td>{{ planet["surface_water"] }}%</td>
-                <td>{{ planet["population"] }}</td>
-                {% if planet["residents"] %}
-                <td><button id="residents" data-planetName = "{{ planet['name'] }}" data-residentapilist="{{ planet['residents'] }}" data-toggle="modal" data-target="#residentsModal">{{planet["residents"]|length}} residents</button></td>
+    <nav id="top" class="navbar navbar-expand-md navbar-dark  bg-dark">
+          <div class="navbar-brand" >Planet list</div>
+          <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                <a class="nav-link" href="#">Voting statistics </a>
+              </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                {% if session %}
+                    <div id="logged_in" class="navbar-brand">Logged in as {{ session['username'] }}</div>
+                    <a id="logout_button" class="btn btn-danger" href="{{ url_for('logout') }}">Logout</a>
                 {% else %}
-                <td>No known residents</td>
+                    <a id="register_button" class="btn btn-primary" href="{{ url_for('registration') }}" id="register">Register</a>
+                    <a id="login_button" class="btn btn-primary" href="{{ url_for('login') }}">Login</a>
                 {% endif %}
-                <td><button id="vote">Vote</button></td>
-            </tr>
-        {% endfor %}
-        </table>
-    </div>
+            </form>
+          </div>
+        </nav>
+        <br />
+    <h1>Known planets of the galaxy</h1>
+        <div class="dataTable">
+            {%if prev_page is none%}
+            <button id="prevButton" class="btn btn-primary disabled" data-prev="{{prev_page}}">Previous</button>
+            {%else%}
+            <button id="prevButton" class="btn btn-primary" data-prev="{{prev_page}}">Previous</button>
+            {%endif%}
+            {%if next_page is none%}
+            <button id="nextButton" class="btn btn-primary disabled" data-next="{{next_page}}">Next</button>
+            {%else%}
+            <button id="nextButton" class="btn btn-primary" data-next="{{next_page}}">Next</button>
+            {%endif%}
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Diameter</th>
+                    <th>Climate</th>
+                    <th>Terrain</th>
+                    <th>Surface Water Percentage</th>
+                    <th>Population</th>
+                    <th>Residents</th>
+                </tr>
+            {% for planet in planets %}
+                <tr>
+                    <td>{{ planet["name"] }}</td>
+                    <td>{{ "{:,}".format(planet["diameter"]|int) }} km</td>
+                    <td>{{ planet["climate"] }}</td>
+                    <td>{{ planet["terrain"] }}</td>
+                    {% if planet["surface_water"]=="unknown" %}
+                    <td>{{ planet["surface_water"] }}</td>
+                    {% else %}
+                    <td>{{ planet["surface_water"] }}%</td>
+                    {% endif %}
+                    {% if planet["population"]=="unknown" %}
+                    <td>{{planet["population"]}}</td>
+                    {% else %}
+                    <td>{{ "{:,}".format(planet["population"]|int) }} people</td>
+                    {% endif %}
+                    {% if planet["residents"] %}
+                    <td><button id="residents" data-planetName = "{{ planet['name'] }}" data-residentapilist="{{ planet['residents'] }}" data-toggle="modal" data-target="#residentsModal">{{planet["residents"]|length}} residents</button></td>
+                    {% else %}
+                    <td>No known residents</td>
+                    {% endif %}
+                    <td><button id="vote">Vote</button></td>
+                </tr>
+            {% endfor %}
+            </table>
+            <br />
+            <a href="#top" class="btn btn-primary">Go to top</a>
+        </div>
 
-    <!-- Residents Modal -->
-    <div class="modal fade" id="residentsModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="residentsModalTitle"></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-                </div>
-                <div class="modal-body">
-                    <table class=resident-data>
-                        <tr>
-                            <th>Name</th>
-                            <th>Height</th>
-                            <th>Mass</th>
-                            <th>Skin colour</th>
-                            <th>Hair colour</th>
-                            <th>Eye colour</th>
-                            <th>Birth Year</th>
-                            <th>Gender</th>
-                        </tr>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- Residents Modal -->
+        <div class="modal fade" id="residentsModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="residentsModalTitle"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class=resident-data>
+                            <tr>
+                                <th>Name</th>
+                                <th>Height</th>
+                                <th>Mass</th>
+                                <th>Skin colour</th>
+                                <th>Hair colour</th>
+                                <th>Eye colour</th>
+                                <th>Birth Year</th>
+                                <th>Gender</th>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     <script type="text/javascript" src="/static/jquery-3.2.1.min.js" ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
