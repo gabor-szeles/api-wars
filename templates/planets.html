@@ -71,7 +71,9 @@
                     {% else %}
                     <td>No known residents</td>
                     {% endif %}
-                    <td><button id="vote">Vote</button></td>
+                    {% if session %}
+                    <td><button class="voteButton" data-planetname = "{{ planet['name'] }}" data-planetid = "{{ planet['url'] }}" data-userid="{{ session['user_id'] }}">Vote</button></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             </table>

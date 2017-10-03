@@ -1,4 +1,5 @@
 from config import Config
+from datetime import datetime
 import psycopg2
 import psycopg2.extras
 
@@ -56,3 +57,9 @@ def get_user_by_name(cursor, username):
                       FROM users
                       WHERE username = %s;""", (username,))
     return cursor.fetchone()
+
+
+@connection_handler
+def add_vote(cursor, planet_id, planet_name, user_id):
+    cursor.execute("INSERT INTO planet_votes (planet_id, planet_name, user_id, submission_time) VALUES "
+                   "(%s, %s, %s, %s);", (planet_id, planet_name, user_id, datetime.now().replace(microsecond=0)))

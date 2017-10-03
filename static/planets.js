@@ -16,7 +16,7 @@ function pager(page){
     $.ajax({
       type: 'POST',
       url: '/',
-      data: {"next_page": page}
+      data: {'next_page': page}
     })
      .done(function(completeHtmlPage) {
        $("body").empty();
@@ -60,4 +60,28 @@ function apiCall(apiLink){
                                         </tr>`)
         }
     });
+}
+
+
+$('.voteButton').click(function(event){
+    var clickedVoteButton = $(event.target)
+    var planetId = clickedVoteButton.data('planetid').replace('ttps://swapi.co/api/planets/', '').slice(1, -1)
+    var userId = clickedVoteButton.data('userid')
+    var planetName = clickedVoteButton.data('planetname')
+    console.log(planetId)
+    transferVotePlanet(planetId, userId, planetName)
+})
+
+
+function transferVotePlanet(ptId, usrId, ptName){
+    $.ajax({
+      type: 'POST',
+      url: '/vote',
+      data: {'planetid': ptId,
+             'userid': usrId,
+             'planetname': ptName}
+    })
+    .done(function(completeHtmlPage) {
+        location.reload()
+   });
 }

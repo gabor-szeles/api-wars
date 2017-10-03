@@ -5,7 +5,6 @@ import database
 import data_handler
 
 
-
 app = Flask(__name__)
 
 
@@ -62,6 +61,15 @@ def registration():
             session['user_id'] = database.get_user_id(user_name)
             return redirect("/")
     return render_template("registration.html", new_user=new_user)
+
+
+@app.route('/vote', methods=['POST'])
+def vote_planet():
+    planet_id = request.form["planetid"]
+    planet_name = request.form["planetname"]
+    user_id = request.form["userid"]
+    database.add_vote(planet_id, planet_name, user_id)
+    return '', 204
 
 
 if __name__ == "__main__":
