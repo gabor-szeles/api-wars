@@ -19,8 +19,8 @@ function pager(page){
       data: {'next_page': page}
     })
      .done(function(completeHtmlPage) {
-       $("body").empty();
-       $("body").append(completeHtmlPage)
+       $('body').empty();
+       $('body').append(completeHtmlPage)
     });
 }
 
@@ -38,8 +38,8 @@ $('#residentsModal').on('show.bs.modal', function(event) {
 });
 
 
-$("#residentsModal").on("hidden.bs.modal", function () {
-    $(".actual-data").empty()
+$('#residentsModal').on("hidden.bs.modal", function () {
+    $('.actual-data').empty()
 });
 
 
@@ -84,4 +84,31 @@ function transferVotePlanet(ptId, usrId, ptName){
     .done(function(completeHtmlPage) {
         location.reload()
    });
-}
+};
+
+
+$('#statisticsModal').on('show.bs.modal', function() {
+    $.ajax({
+        dataType: 'json',
+        url: '/get_vote_stats',
+        success: function(response) {
+            var statsData = response['stats']
+            $('.statistics').append(`<tr>
+                                        <th>Planet name</th>
+                                        <th>Received votes</th>
+                                    </tr>`)
+            for(let obj=0;obj<statsData.length;obj++){
+                let data = statsData[obj]
+                $('.statistics').append(`<tr>
+                                            <td>${data['planet_name']}</td>
+                                            <td>${data['votes']}</td>
+                                        </tr>`)
+            }
+        }
+})
+})
+
+
+$('#statisticsModal').on("hidden.bs.modal", function () {
+    $('.statistics').empty()
+});
