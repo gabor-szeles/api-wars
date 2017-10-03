@@ -1,6 +1,8 @@
 from flask import Flask, render_template, redirect, request, session, url_for
 import requests
 import json
+import database
+import data_handler
 
 
 
@@ -27,7 +29,7 @@ def login():
         password = request.form['password']
         user = database.get_user_by_name(username)
         if user:
-            valid_password = check_password(password, user['password'])
+            valid_password = data_handler.check_password(password, user['password'])
             if valid_password:
                 session['username'] = username
                 session['user_id'] = user['id']
@@ -53,7 +55,7 @@ def registration():
     if request.method == 'POST':
         user_name = request.form.get("user_name")
         password = request.form.get("password")
-        hashed_password = get_hashed_password(password)
+        hashed_password = data_handler.get_hashed_password(password)
         new_user = database.register_user(user_name, hashed_password)
         if new_user:
             session['username'] = user_name

@@ -10,8 +10,12 @@
 <body>
     <h1>Known planets of the galaxy</h1>
     <div>
-        <abbr title="Login"><a id="login_button" href="{{ url_for('login') }}">Login</a></abbr>
-        <abbr title="Register"><a id="register_button" href="{{ url_for('registration') }}" id="register">Register</a></abbr>
+        {%if session%}
+        <abbr title="Logout"><a id="login_button" class="btn btn-danger" href="{{ url_for('logout') }}">Logout</a></abbr>
+        {% else %}
+        <abbr title="Login"><a id="login_button" class="btn btn-primary" href="{{ url_for('login') }}">Login</a></abbr>
+        <abbr title="Register"><a id="register_button" class="btn btn-primary" href="{{ url_for('registration') }}" id="register">Register</a></abbr>
+        {%endif%}
     </div>
     <div class="dataTable">
         {%if prev_page is none%}
