@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, session, url_for
+from flask import Flask, render_template, redirect, request, session, url_for, jsonify
 import requests
 import json
 import database
@@ -69,7 +69,14 @@ def vote_planet():
     planet_name = request.form["planetname"]
     user_id = request.form["userid"]
     database.add_vote(planet_id, planet_name, user_id)
-    return '', 204
+    return "OK"
+
+
+@app.route('/get_vote_stats')
+def get_voting_statistics():
+    stats = database.get_stats()
+    return jsonify(stats=stats)
+
 
 
 if __name__ == "__main__":

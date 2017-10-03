@@ -63,3 +63,13 @@ def get_user_by_name(cursor, username):
 def add_vote(cursor, planet_id, planet_name, user_id):
     cursor.execute("INSERT INTO planet_votes (planet_id, planet_name, user_id, submission_time) VALUES "
                    "(%s, %s, %s, %s);", (planet_id, planet_name, user_id, datetime.now().replace(microsecond=0)))
+
+
+@connection_handler
+def get_stats(cursor):
+    cursor.execute("""SELECT planet_name, COUNT(planet_name) AS votes
+                      FROM planet_votes
+                      GROUP BY planet_name
+                      ORDER BY votes DESC""")
+    stats = cursor.fetchall()
+    return stats
