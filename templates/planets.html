@@ -31,7 +31,7 @@
                 <td>{{ planet["surface_water"] }}%</td>
                 <td>{{ planet["population"] }}</td>
                 {% if planet["residents"] %}
-                <td><button id="residents" data-planetName = "{{ planet['name'] }}" data-toggle="modal" data-target="#residentsModal">{{planet["residents"]|length}} residents</button></td>
+                <td><button id="residents" data-planetName = "{{ planet['name'] }}" data-residentapilist="{{ planet['residents'] }}" data-toggle="modal" data-target="#residentsModal">{{planet["residents"]|length}} residents</button></td>
                 {% else %}
                 <td>No known residents</td>
                 {% endif %}
@@ -52,7 +52,18 @@
             </button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" class="form-control" id="titleInput" />
+                    <table class=resident-data>
+                        <tr>
+                            <th>Name</th>
+                            <th>Height</th>
+                            <th>Mass</th>
+                            <th>Skin colour</th>
+                            <th>Hair colour</th>
+                            <th>Eye colour</th>
+                            <th>Birth Year</th>
+                            <th>Gender</th>
+                        </tr>
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
