@@ -9,6 +9,10 @@
 </head>
 <body>
     <h1>Known planets of the galaxy</h1>
+    <div>
+        <abbr title="Login"><a id="login_button" href="{{ url_for('login') }}">Login</a></abbr>
+        <abbr title="Register"><a id="register_button" href="{{ url_for('registration') }}" id="register">Register</a></abbr>
+    </div>
     <div class="dataTable">
         {%if prev_page is none%}
         <button id="prevButton" class="btn btn-primary disabled" data-prev="{{prev_page}}">Previous</button>
