@@ -108,8 +108,8 @@ $('#statisticsModal').on('show.bs.modal', function() {
             for(let obj=0;obj<statsData.length;obj++){
                 let data = statsData[obj]
                 $('.statistics').append(`<tr>
-                                            <td>${data['planet_name']}</td>
-                                            <td>${data['votes']}</td>
+                                            <td id="planetName">${data['planet_name']}</td>
+                                            <td id="planetVotes">${data['votes']}</td>
                                         </tr>`)
             }
         }

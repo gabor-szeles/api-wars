@@ -34,3 +34,7 @@ float: right;
 margin-right: 5px;
 margin-bottom: 5px !important;
 }
+
+#planetName, #planetVotes{
+    height: 50px
+}
