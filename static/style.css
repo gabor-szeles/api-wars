@@ -36,3 +36,8 @@ margin-bottom: 5px !important;
 #planetName, #planetVotes{
     height: 50px
 }
+
+.footer {
+    background: black;
+    color: white;
+}
