@@ -61,7 +61,7 @@ def vote_planet():
     planet_name = request.form["planetname"]
     user_id = request.form["userid"]
     database.add_vote(planet_id, planet_name, user_id)
-    return "OK"
+    return ""
 
 
 @app.route('/get_vote_stats')

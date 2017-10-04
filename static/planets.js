@@ -34,7 +34,6 @@ $('#residentsModal').on('show.bs.modal', function(event) {
     var planetName = clickedButton.data('planetname');
     var apiList = clickedButton.data('residentapilist');
     apiList = apiList.replace(/'/g, '').slice(1, -1).split(',');
-    var residentsArray = []
     for (let api = 0; api < apiList.length; api++) {
         apiCall(apiList[api]);
     }
@@ -75,6 +74,7 @@ $('.voteButton').click(function(event) {
     var userId = clickedVoteButton.data('userid');
     var planetName = clickedVoteButton.data('planetname');
     transferVotePlanet(planetId, userId, planetName);
+    clickedVoteButton.html('Voted!')
 });
 
 
@@ -88,9 +88,6 @@ function transferVotePlanet(ptId, usrId, ptName) {
                 'planetname': ptName
             }
         })
-        .done(function(completeHtmlPage) {
-            location.reload()
-        });
 };
 
 
