@@ -1,3 +1,5 @@
+//Paging event listeners and functions
+
 $('#nextButton').click(function(){
     var nextPage = this.dataset.next
     pager(nextPage)
@@ -24,6 +26,8 @@ function pager(page){
     });
 }
 
+
+//Residents Modal event listeners and functions
 
 $('#residentsModal').on('show.bs.modal', function(event) {
     var clickedButton = $(event.relatedTarget) // Button that triggered the modal
@@ -63,6 +67,8 @@ function apiCall(apiLink){
 }
 
 
+//Voting event listener and function
+
 $('.voteButton').click(function(event){
     var clickedVoteButton = $(event.target)
     var planetId = clickedVoteButton.data('planetid').replace('ttps://swapi.co/api/planets/', '').slice(1, -1)
@@ -86,6 +92,8 @@ function transferVotePlanet(ptId, usrId, ptName){
    });
 };
 
+
+//Statistics modal event listeners
 
 $('#statisticsModal').on('show.bs.modal', function() {
     $.ajax({

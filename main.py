@@ -26,17 +26,9 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        user = database.get_user_by_name(username)
-        if user:
-            valid_password = data_handler.check_password(password, user['password'])
-            if valid_password:
-                session['username'] = username
-                session['user_id'] = user['id']
-                return redirect(url_for('index'))
-            if not valid_password:
-                valid_login = False
-        if not user:
-            valid_login = False
+        valid_login = data_handler.authenticate(username, password)
+        if valid_login:
+            return redirect(url_for('index'))
     return render_template("login.html", valid_login=valid_login)
 
 
@@ -76,7 +68,6 @@ def vote_planet():
 def get_voting_statistics():
     stats = database.get_stats()
     return jsonify(stats=stats)
-
 
 
 if __name__ == "__main__":
