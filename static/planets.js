@@ -1,53 +1,53 @@
 //Paging event listeners and functions
 
-$('#nextButton').click(function(){
-    var nextPage = this.dataset.next
-    pager(nextPage)
-
-})
-
-
-$('#prevButton').click(function(){
-    var prevPage = this.dataset.prev
-    pager(prevPage)
-
-})
+$('#nextButton').click(function() {
+    var nextPage = this.dataset.next;
+    pager(nextPage);
+});
 
 
-function pager(page){
+$('#prevButton').click(function() {
+    var prevPage = this.dataset.prev;
+    pager(prevPage);
+});
+
+
+function pager(page) {
     $.ajax({
-      type: 'POST',
-      url: '/',
-      data: {'next_page': page}
-    })
-     .done(function(completeHtmlPage) {
-       $('body').empty();
-       $('body').append(completeHtmlPage)
-    });
+            type: 'POST',
+            url: '/',
+            data: {
+                'next_page': page
+            }
+        })
+        .done(function(completeHtmlPage) {
+            $('body').empty();
+            $('body').append(completeHtmlPage);
+        });
 }
 
 
 //Residents Modal event listeners and functions
 
 $('#residentsModal').on('show.bs.modal', function(event) {
-    var clickedButton = $(event.relatedTarget) // Button that triggered the modal
-    var planetName = clickedButton.data('planetname')
-    var apiList = clickedButton.data('residentapilist')
-    apiList = apiList.replace(/'/g, '').slice(1, -1).split(',')
+    var clickedButton = $(event.relatedTarget); // Button that triggered the modal
+    var planetName = clickedButton.data('planetname');
+    var apiList = clickedButton.data('residentapilist');
+    apiList = apiList.replace(/'/g, '').slice(1, -1).split(',');
     var residentsArray = []
-    for (let api=0; api<apiList.length;api++){
-        apiCall(apiList[api])
+    for (let api = 0; api < apiList.length; api++) {
+        apiCall(apiList[api]);
     }
-    $('.modal-title').text(`Known residents of ${planetName}`)
+    $('.modal-title').text(`Known residents of ${planetName}`);
 });
 
 
-$('#residentsModal').on("hidden.bs.modal", function () {
-    $('.actual-data').empty()
+$('#residentsModal').on("hidden.bs.modal", function() {
+    $('.actual-data').empty();
 });
 
 
-function apiCall(apiLink){
+function apiCall(apiLink) {
     $.ajax({
         dataType: "json",
         url: apiLink,
@@ -69,27 +69,28 @@ function apiCall(apiLink){
 
 //Voting event listener and function
 
-$('.voteButton').click(function(event){
-    var clickedVoteButton = $(event.target)
-    var planetId = clickedVoteButton.data('planetid').replace('ttps://swapi.co/api/planets/', '').slice(1, -1)
-    var userId = clickedVoteButton.data('userid')
-    var planetName = clickedVoteButton.data('planetname')
-    console.log(planetId)
-    transferVotePlanet(planetId, userId, planetName)
-})
+$('.voteButton').click(function(event) {
+    var clickedVoteButton = $(event.target);
+    var planetId = clickedVoteButton.data('planetid').replace('ttps://swapi.co/api/planets/', '').slice(1, -1);
+    var userId = clickedVoteButton.data('userid');
+    var planetName = clickedVoteButton.data('planetname');
+    transferVotePlanet(planetId, userId, planetName);
+});
 
 
-function transferVotePlanet(ptId, usrId, ptName){
+function transferVotePlanet(ptId, usrId, ptName) {
     $.ajax({
-      type: 'POST',
-      url: '/vote',
-      data: {'planetid': ptId,
-             'userid': usrId,
-             'planetname': ptName}
-    })
-    .done(function(completeHtmlPage) {
-        location.reload()
-   });
+            type: 'POST',
+            url: '/vote',
+            data: {
+                'planetid': ptId,
+                'userid': usrId,
+                'planetname': ptName
+            }
+        })
+        .done(function(completeHtmlPage) {
+            location.reload()
+        });
 };
 
 
@@ -105,7 +106,7 @@ $('#statisticsModal').on('show.bs.modal', function() {
                                         <th>Planet name</th>
                                         <th>Received votes</th>
                                     </tr>`)
-            for(let obj=0;obj<statsData.length;obj++){
+            for (let obj = 0; obj < statsData.length; obj++) {
                 let data = statsData[obj]
                 $('.statistics').append(`<tr>
                                             <td id="planetName">${data['planet_name']}</td>
@@ -113,10 +114,10 @@ $('#statisticsModal').on('show.bs.modal', function() {
                                         </tr>`)
             }
         }
-})
-})
+    });
+});
 
 
-$('#statisticsModal').on("hidden.bs.modal", function () {
+$('#statisticsModal').on("hidden.bs.modal", function() {
     $('.statistics').empty()
 });
