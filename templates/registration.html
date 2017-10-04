@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='styles/display_template.css')}}">
     <head>
         <meta charset="utf-8">
         <title>New user registration</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <link rel="stylesheet" href="/static/style.css">
     </head>
     <body>
             <h1>Register new user</h1>
@@ -26,10 +27,10 @@
                         </div>
                     </p>
                     <p>
-                        <abbr title="Register user"><button type="submit">Register</button></abbr>
+                        <abbr title="Register user"><button type="submit" class="btn btn-primary">Register</button></abbr>
                     </p>
                 </form>
-                <a id="back"href="/"><abbr title="Back to the question page"><img src="static/leftarrow.png" width="30" height="30" alt="Back"></abbr></a>
+                <a id="back" class="btn btn-danger" href="/">Back to index</a>
 
     </body>
 </html>
